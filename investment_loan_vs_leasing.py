@@ -6,6 +6,7 @@ interest_rate = 0.06
 leasing_rate = 0.14
 annual_revenue = 120000
 years = 4
+is_term_loan = True
 
 # Initialize the data structures for storing the results
 loan_liquidity = [0] * years
@@ -16,6 +17,8 @@ for i in range(years):
     # Calculate the cumulative liquidity for the loan
     if i == 0:
         loan_liquidity[i] = annual_revenue - (loan_amount * interest_rate)
+    if i == years - 1:
+        loan_liquidity[i] = loan_liquidity[i-1] + annual_revenue - (loan_amount * interest_rate) - loan_amount
     else:
         loan_liquidity[i] = loan_liquidity[i-1] + annual_revenue - (loan_amount * interest_rate)
     

@@ -1,23 +1,28 @@
-import numpy as np
+import pandas as pd
 
-# Given data from the image
-probabilities = np.array([3, 9, 13, 19, 30, 26]) / 100  # Probabilities in fraction
-revenues = np.array([100, 190, 420, 540, 660, 840])  # Revenues in thousand €
-costs = 330  # Costs in thousand €
+# Gegebene Daten
+data = {
+    'Probabilities': [0.03, 0.09, 0.13, 0.19, 0.30, 0.26],
+    'Revenues': [100, 190, 420, 540, 660, 840]
+}
+df = pd.DataFrame(data)
 
-# Calculate gains by subtracting costs from revenues
-gains = revenues - costs
+# Kosten
+costs = 330
 
-# Calculate the expected value of the gain
-expected_gain = np.sum(probabilities * gains)
+# Berechnung der Gewinne durch Subtraktion der Kosten von den Einnahmen
+df['Gains'] = df['Revenues'] - costs
 
-# Calculate the variance of the gain
-variance_gain = np.sum(probabilities * (gains - expected_gain)**2)
+# Berechnung des erwarteten Gewinns
+expected_gain = (df['Probabilities'] * df['Gains']).sum()
 
-# Calculate the standard deviation of the gain
-std_deviation_gain = np.sqrt(variance_gain)
+# Berechnung der Varianz des Gewinns
+variance_gain = (df['Probabilities'] * (df['Gains'] - expected_gain)**2).sum()
 
-# Calculate the coefficient of variation of the gain
+# Berechnung der Standardabweichung des Gewinns
+std_deviation_gain = variance_gain**0.5
+
+# Berechnung des Variationskoeffizienten des Gewinns
 coefficient_of_variation = std_deviation_gain / expected_gain
 
-print(expected_gain, std_deviation_gain, coefficient_of_variation)
+print(f"Erwartungswert: {round(expected_gain,4)}, Standardabweichung: {round(std_deviation_gain,4)}, Variationskoeffizient: {round(coefficient_of_variation,4)}")
